@@ -58,6 +58,14 @@ public:
     static const string CODE_DESCRIPTION;
     static const string CODE_LONGDESCRIPTION;
     static const string CODE_LYRICS;
+    
+    static const string CODE_AUTHOR;
+    static const string CODE_DESCRIPTION2;
+    static const string CODE_TITLE;
+    static const string CODE_CLIPFILENAME;
+    static const string CODE_REQUIRED;
+    static const string CODE_KEYWORD;
+    static const string CODE_CCOPYRIGHT;
 
     static const string CODE_SORTNAME;
     static const string CODE_SORTARTIST;
@@ -115,6 +123,14 @@ public:
     string description;
     string longDescription;
     string lyrics;
+    
+    string  author;
+    string  description2;
+    string  title;
+    string  clipfilename;
+    string  required;
+    string  keyword;
+    string ccopyright;
 
     string sortName;
     string sortArtist;
@@ -199,6 +215,10 @@ private:
 
     void remove ( MP4File&, const string& );
     void store  ( MP4File&, const string&, MP4ItmfBasicType, const void*, uint32_t );
+    
+    void storeStringUDATA  ( MP4File&, const string&, const string&, const char* );
+    uint32_t removeUDATA ( MP4File&, const string& );
+    void storeUDATA  ( MP4File&, const string&, MP4ItmfBasicType, const void*, uint32_t );
 
     void updateArtworkShadow( MP4Tags*& );
 };

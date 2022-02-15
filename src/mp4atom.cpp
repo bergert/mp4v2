@@ -48,6 +48,8 @@ MP4AtomInfo::MP4AtomInfo(const char* name, bool mandatory, bool onlyOne)
 MP4Atom::MP4Atom(MP4File& file, const char* type)
     : m_File(file)
 {
+    //log.setVerbosity(MP4_LOG_VERBOSE4);
+ 
     SetType(type);
     m_unknownType = false;
     m_start = 0;
@@ -111,6 +113,7 @@ void MP4Atom::Generate()
 
 MP4Atom* MP4Atom::ReadAtom(MP4File& file, MP4Atom* pParentAtom)
 {
+	//log.setVerbosity(MP4_LOG_VERBOSE4);
     uint8_t hdrSize = 8;
     uint8_t extendedType[16];
 
@@ -748,7 +751,9 @@ static const char* const UDTA_ELEMENTS[] = {
     "\xA9" "ed7",
     "\xA9" "ed8",
     "\xA9" "ed9",
+    "\xA9" "enc",
     "\xA9" "fmt",
+    "\xA9" "gen",
     "\xA9" "inf",
     "\xA9" "isr",
     "\xA9" "lab",
@@ -762,6 +767,7 @@ static const char* const UDTA_ELEMENTS[] = {
     "\xA9" "prf",
     "\xA9" "prk",
     "\xA9" "prl",
+    "\xA9" "rec",
     "\xA9" "req",
     "\xA9" "snk",
     "\xA9" "snm",
@@ -770,11 +776,18 @@ static const char* const UDTA_ELEMENTS[] = {
     "\xA9" "swk",
     "\xA9" "swr",
     "\xA9" "wrt",
+    "auth",
     "Allf",
-    "name",
+    "clfn",
+    "dscp",
+    "kywd",
     "LOOP",
+    "name",
     "ptv ",
     "SelO",
+    "titl",
+    "tvnn",
+    "tvsh",
     "WLOC",
     NULL // must be last
 };

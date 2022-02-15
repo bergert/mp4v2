@@ -117,6 +117,14 @@ Tags::c_fetch( MP4Tags*& tags, MP4FileHandle hFile )
     fetchString(  cim, CODE_LONGDESCRIPTION,   longDescription,   c.longDescription );
     fetchString(  cim, CODE_LYRICS,            lyrics,            c.lyrics );
 
+    fetchString(  cim, CODE_AUTHOR,            author,            c.author );
+    fetchString(  cim, CODE_DESCRIPTION2,      description2,      c.description2 );
+    fetchString(  cim, CODE_TITLE,             title,             c.title );
+    fetchString(  cim, CODE_CLIPFILENAME,      clipfilename,      c.clipfilename );
+    fetchString(  cim, CODE_REQUIRED,          required,          c.required );
+    fetchString(  cim, CODE_KEYWORD,           keyword,           c.keyword );
+    fetchString(  cim, CODE_CCOPYRIGHT,        ccopyright,        c.ccopyright );
+
     fetchString(  cim, CODE_COPYRIGHT,         copyright,         c.copyright );
     fetchString(  cim, CODE_ENCODINGTOOL,      encodingTool,      c.encodingTool ); 
     fetchString(  cim, CODE_ENCODEDBY,         encodedBy,         c.encodedBy );
@@ -372,7 +380,21 @@ Tags::c_store( MP4Tags*& tags, MP4FileHandle hFile )
     storeString(  file, CODE_DESCRIPTION,       description,       c.description );
     storeString(  file, CODE_LONGDESCRIPTION,   longDescription,   c.longDescription );
     storeString(  file, CODE_LYRICS,            lyrics,            c.lyrics );
-
+    
+    storeStringUDATA(  file, CODE_AUTHOR,            author,            c.author );
+    storeStringUDATA(  file, CODE_TVNETWORK,         tvNetwork,         c.tvNetwork );
+    storeStringUDATA(  file, CODE_TVNETWORK,         tvNetwork,         c.tvNetwork );
+    storeStringUDATA(  file, CODE_LYRICS,            lyrics,            c.lyrics );
+    storeStringUDATA(  file, CODE_DESCRIPTION2,      description2,      c.description2 );
+    storeStringUDATA(  file, CODE_TITLE,             title,             c.title );
+    storeStringUDATA(  file, CODE_CLIPFILENAME,      clipfilename,      c.clipfilename );
+    storeStringUDATA(  file, CODE_REQUIRED,          required,          c.required );
+    storeStringUDATA(  file, CODE_KEYWORD,           keyword,           c.keyword );
+    storeStringUDATA(  file, CODE_COPYRIGHT,         copyright,         c.copyright );
+    storeStringUDATA(  file, CODE_CCOPYRIGHT,        ccopyright,        c.ccopyright );
+    storeStringUDATA(  file, CODE_ENCODINGTOOL,      encodingTool,      c.encodingTool );
+    storeStringUDATA(  file, CODE_ENCODEDBY,         encodedBy,         c.encodedBy );
+    
     storeString(  file, CODE_COPYRIGHT,         copyright,         c.copyright );
     storeString(  file, CODE_ENCODINGTOOL,      encodingTool,      c.encodingTool );
     storeString(  file, CODE_ENCODEDBY,         encodedBy,         c.encodedBy );
@@ -613,6 +635,29 @@ Tags::remove( MP4File& file, const string& code )
 
     genericItemListFree( itemList ); // free
 }
+    
+    
+    uint32_t
+    Tags::removeUDATA( MP4File& file, const string& code )
+    {
+        MP4Atom* udta = file.FindAtom( "moov.udta" );
+        if( udta ) {
+            const uint32_t numAtoms = udta->GetNumberOfChildAtoms();
+            int32_t i;
+            for (i = numAtoms - 1; i >= 0; i--) {
+                MP4Atom* pAtom = udta->GetChildAtom(i);
+                const char* type = pAtom->GetType();
+                char code2[5];
+                strncpy(code2, code.c_str(), 4);
+                code2[4] = 0;
+                if (strcmp(type, code2)) {
+                    udta->DeleteChildAtom(pAtom);
+                    return(i);
+                }
+            }
+        }
+        return (-1);
+    }
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -634,6 +679,14 @@ Tags::store( MP4File& file, const string& code, MP4ItmfBasicType basicType, cons
     genericAddItem( file, &item );
     genericItemFree( &item ); // free
 }
+    
+    void
+    Tags::storeUDATA( MP4File& file, const string& code, MP4ItmfBasicType basicType, const void* buffer, uint32_t size )
+    {
+        Tags::removeUDATA( file, code );
+        
+        Tags::store( file, code, basicType,  buffer, size );
+    }
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -782,7 +835,17 @@ Tags::storeString( MP4File& file, const string& code, const string& cpp, const c
     else
         remove( file, code );
 }
-
+    void
+    Tags::storeStringUDATA( MP4File& file, const string& code, const string& cpp, const char* c )
+    {
+        if( c )
+            storeUDATA( file, code, MP4_ITMF_BT_UTF8, cpp.c_str(), (uint32_t)cpp.size() );
+        else
+            removeUDATA( file, code );
+    }
+    
+    
+    
 ///////////////////////////////////////////////////////////////////////////////
 
 void
@@ -838,6 +901,7 @@ Tags::updateArtworkShadow( MP4Tags*& tags )
 
 const string Tags::CODE_NAME              = "\xa9" "nam";
 const string Tags::CODE_ARTIST            = "\xa9" "ART";
+const string Tags::CODE_AUTHOR            = "auth";
 const string Tags::CODE_ALBUMARTIST       = "aART";
 const string Tags::CODE_ALBUM             = "\xa9" "alb";
 const string Tags::CODE_GROUPING          = "\xa9" "grp";
@@ -858,8 +922,13 @@ const string Tags::CODE_TVSEASON          = "tvsn";
 const string Tags::CODE_TVEPISODE         = "tves";
 
 const string Tags::CODE_DESCRIPTION       = "desc";
+const string Tags::CODE_DESCRIPTION2      = "dscp";
 const string Tags::CODE_LONGDESCRIPTION   = "ldes";
 const string Tags::CODE_LYRICS            = "\xa9" "lyr";
+const string Tags::CODE_TITLE             = "titl";
+const string Tags::CODE_CLIPFILENAME      = "clfn";
+const string Tags::CODE_REQUIRED          = "\xa9" "req";
+const string Tags::CODE_KEYWORD           = "kywd";
 
 const string Tags::CODE_SORTNAME          = "sonm";
 const string Tags::CODE_SORTARTIST        = "soar";
@@ -869,6 +938,7 @@ const string Tags::CODE_SORTCOMPOSER      = "soco";
 const string Tags::CODE_SORTTVSHOW        = "sosn";
 
 const string Tags::CODE_COPYRIGHT         = "cprt";
+const string Tags::CODE_CCOPYRIGHT        = "\xa9" "cpy";
 const string Tags::CODE_ENCODINGTOOL      = "\xa9" "too";
 const string Tags::CODE_ENCODEDBY         = "\xa9" "enc";
 const string Tags::CODE_PURCHASEDATE      = "purd";

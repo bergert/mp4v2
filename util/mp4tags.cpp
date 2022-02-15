@@ -53,6 +53,13 @@ using namespace mp4v2::util;
 #define OPT_PODCAST      'B'
 #define OPT_ALBUM_ARTIST 'R'
 #define OPT_NAME         's'
+#define OPT_CCOPYRIGHT   '1'
+#define OPT_AUTHOR       '2'
+#define OPT_TITLE        '3'
+#define OPT_DESCRIPTION2 '4'
+#define OPT_CLIPFILENAME '5'
+#define OPT_REQUIRED     '6'
+#define OPT_KEYWORD      '7'
 #define OPT_TVSHOW       'S'
 #define OPT_TRACK        't'
 #define OPT_TRACKS       'T'
@@ -63,7 +70,7 @@ using namespace mp4v2::util;
 #define OPT_ARTISTID     'z'
 #define OPT_COMPOSERID   'Z'
 
-#define OPT_STRING  "r:A:a:b:c:C:d:D:e:E:g:G:H:i:I:j:l:L:m:M:n:N:o:O:p:P:B:R:s:S:t:T:x:X:w:y:z:Z:"
+#define OPT_STRING  "r:A:a:b:c:C:d:D:e:E:g:G:H:i:I:j:l:L:m:M:n:N:o:O:p:P:B:R:s:S:t:T:x:X:w:y:z:Z:1:2:3:4:5:6:7:"
 
 #define ELEMENT_OF(x,i) x[int(i)]
 
@@ -73,45 +80,52 @@ static const char* const help_text =
     "\n"
     "      -help            Display this help text and exit\n"
     "      -version         Display version information and exit\n"
-    "  -A, -album       STR  Set the album title\n"
-    "  -a, -artist      STR  Set the artist information\n"
-    "  -b, -tempo       NUM  Set the tempo (beats per minute)\n"
-    "  -c, -comment     STR  Set a general comment\n"
-    "  -C, -copyright   STR  Set the copyright information\n"
-    "  -d, -disk        NUM  Set the disk number\n"
-    "  -D, -disks       NUM  Set the number of disks\n"
-    "  -e, -encodedby   STR  Set the name of the person or company who encoded the file\n"
-    "  -E, -tool        STR  Set the software used for encoding\n"
-    "  -g, -genre       STR  Set the genre name\n"
-    "  -G, -grouping    STR  Set the grouping name\n"
-    "  -H, -hdvideo     NUM  Set the HD flag (1\\0)\n"
-    "  -i, -type        STR  Set the Media Type(tvshow, movie, music, ...)\n"
-    "  -I, -contentid   NUM  Set the content ID\n"
-    "  -j, -genreid     NUM  Set the genre ID\n"
-    "  -l, -longdesc    STR  Set the long description\n"
-    "  -L, -lyrics      NUM  Set the lyrics\n"
-    "  -m, -description STR  Set the short description\n"
-    "  -M, -episode     NUM  Set the episode number\n"
-    "  -n, -season      NUM  Set the season number\n"
-    "  -N, -network     STR  Set the TV network\n"
-    "  -o, -episodeid   STR  Set the TV episode ID\n"
-	"  -O, -category    STR  Set the category\n"
-    "  -p, -playlistid  NUM  Set the playlist ID\n"
-    "  -P, -picture     PTH  Set the picture as a .png\n"
-    "  -B, -podcast     NUM  Set the podcast flag.\n"
-    "  -R, -albumartist STR  Set the album artist\n"
-    "  -s, -song        STR  Set the song title\n"
-    "  -S  -show        STR  Set the TV show\n"
-    "  -t, -track       NUM  Set the track number\n"
-    "  -T, -tracks      NUM  Set the number of tracks\n"
-    "  -x, -xid         STR  Set the globally-unique xid (vendor:scheme:id)\n"
-	"  -X, -rating      STR  Set the Rating(none, clean, explicit)\n"
-    "  -w, -writer      STR  Set the composer information\n"
-    "  -y, -year        NUM  Set the release date\n"
-    "  -z, -artistid    NUM  Set the artist ID\n"
-    "  -Z, -composerid  NUM  Set the composer ID\n"
-    "  -r, -remove      STR  Remove tags by code (e.g. \"-r cs\"\n"
-    "                        removes the comment and song tags)";
+    "  -A, -album        STR  Set the album title\n"
+    "  -a, -artist       STR  Set the artist information\n"
+    "  -2, -author       STR  Set the author information\n"
+    "  -b, -tempo        NUM  Set the tempo (beats per minute)\n"
+    "  -c, -comment      STR  Set a general comment\n"
+    "  -C, -copyright    STR  Set the copyright information\n"
+    "  -1, -ccopyright   STR  Set the (c)copyright information\n"
+    "  -d, -disk         NUM  Set the disk number\n"
+    "  -D, -disks        NUM  Set the number of disks\n"
+    "  -e, -encodedby    STR  Set the name of the person or company who encoded the file\n"
+    "  -E, -tool         STR  Set the software used for encoding\n"
+    "  -g, -genre        STR  Set the genre name\n"
+    "  -G, -grouping     STR  Set the grouping name\n"
+    "  -H, -hdvideo      NUM  Set the HD flag (1\\0)\n"
+    "  -i, -type         STR  Set the Media Type(tvshow, movie, music, ...)\n"
+    "  -I, -contentid    NUM  Set the content ID\n"
+    "  -j, -genreid      NUM  Set the genre ID\n"
+    "  -7, -keyword      NUM  Set the keyword information \n"
+    "  -l, -longdesc     STR  Set the long description\n"
+    "  -L, -lyrics       NUM  Set the lyrics\n"
+    "  -m, -description  STR  Set the short description\n"
+    "  -4, -description  STR  Set the short description <dscp>\n"
+    "  -M, -episode      NUM  Set the episode number\n"
+    "  -n, -season       NUM  Set the season number\n"
+    "  -N, -network      STR  Set the TV network\n"
+    "  -o, -episodeid    STR  Set the TV episode ID\n"
+	"  -O, -category     STR  Set the category\n"
+    "  -p, -playlistid   NUM  Set the playlist ID\n"
+    "  -P, -picture      PTH  Set the picture as a .png\n"
+    "  -B, -podcast      NUM  Set the podcast flag.\n"
+    "  -R, -albumartist  STR  Set the album artist\n"
+    "  -s, -song         STR  Set the song title\n"
+    "  -S  -show         STR  Set the TV show\n"
+    "  -3, -title        STR  Set the title <titl> information\n"
+    "  -5, -clipfilename STR  Set the clipfilename information\n"
+    "  -6, -required     STR  Set the required software information\n"
+    "  -t, -track        NUM  Set the track number\n"
+    "  -T, -tracks       NUM  Set the number of tracks\n"
+    "  -x, -xid          STR  Set the globally-unique xid (vendor:scheme:id)\n"
+	"  -X, -rating       STR  Set the Rating(none, clean, explicit)\n"
+    "  -w, -writer       STR  Set the composer information\n"
+    "  -y, -year         NUM  Set the release date\n"
+    "  -z, -artistid     NUM  Set the artist ID\n"
+    "  -Z, -composerid   NUM  Set the composer ID\n"
+    "  -r, -remove       STR  Remove tags by code (e.g. \"-r cs\"\n"
+    "                         removes the comment and song tags)";
 
 extern "C" int
     main( int argc, char** argv )
@@ -136,6 +150,13 @@ extern "C" int
         { "genreid",     prog::Option::REQUIRED_ARG, 0, OPT_GENREID      },
         { "lyrics",      prog::Option::REQUIRED_ARG, 0, OPT_LYRICS       },
         { "description", prog::Option::REQUIRED_ARG, 0, OPT_DESCRIPTION  },
+        { "author",      prog::Option::REQUIRED_ARG, 0, OPT_AUTHOR       },
+        { "description2",prog::Option::REQUIRED_ARG, 0, OPT_DESCRIPTION2 },
+        { "ccopyright",  prog::Option::REQUIRED_ARG, 0, OPT_CCOPYRIGHT   },
+        { "title",       prog::Option::REQUIRED_ARG, 0, OPT_TITLE        },
+        { "clipfilename",prog::Option::REQUIRED_ARG, 0, OPT_CLIPFILENAME },
+        { "required"    ,prog::Option::REQUIRED_ARG, 0, OPT_REQUIRED     },
+        { "keyword"     ,prog::Option::REQUIRED_ARG, 0, OPT_KEYWORD      },
         { "episode",     prog::Option::REQUIRED_ARG, 0, OPT_TVEPISODE    },
         { "season",      prog::Option::REQUIRED_ARG, 0, OPT_TVSEASON     },
         { "network",     prog::Option::REQUIRED_ARG, 0, OPT_TVNETWORK    },
@@ -155,8 +176,8 @@ extern "C" int
         { "composerid",  prog::Option::REQUIRED_ARG, 0, OPT_COMPOSERID   },
         { "remove",      prog::Option::REQUIRED_ARG, 0, OPT_REMOVE       },
         { "albumartist", prog::Option::REQUIRED_ARG, 0, OPT_ALBUM_ARTIST },
-        { "category",    prog::Option::REQUIRED_ARG, 0, OPT_CATEGORY },
-        { "rating",      prog::Option::REQUIRED_ARG, 0, OPT_RATING },
+        { "category",    prog::Option::REQUIRED_ARG, 0, OPT_CATEGORY     },
+        { "rating",      prog::Option::REQUIRED_ARG, 0, OPT_RATING       },
         { NULL, prog::Option::NO_ARG, 0, 0 }
     };
 
@@ -322,6 +343,27 @@ extern "C" int
                         break;
                     case OPT_DESCRIPTION:
                         MP4TagsSetDescription( mdata, NULL );
+                        break;
+                    case OPT_AUTHOR:
+                        MP4TagsSetAuthor( mdata, NULL );
+                        break;
+                    case OPT_CCOPYRIGHT:
+                        MP4TagsSetCCopyright( mdata, NULL );
+                        break;
+                    case OPT_DESCRIPTION2:
+                        MP4TagsSetDescription2( mdata, NULL );
+                        break;
+                    case OPT_TITLE:
+                        MP4TagsSetTitle( mdata, NULL );
+                        break;
+                    case OPT_CLIPFILENAME:
+                        MP4TagsSetClipfilename( mdata, NULL );
+                        break;
+                    case OPT_REQUIRED:
+                        MP4TagsSetRequired( mdata, NULL );
+                        break;
+                    case OPT_KEYWORD:
+                        MP4TagsSetKeyword( mdata, NULL );
                         break;
                     case OPT_TVEPISODE:
                         MP4TagsSetTVEpisode( mdata, NULL );
@@ -492,6 +534,27 @@ extern "C" int
                         break;
                     case OPT_DESCRIPTION:
                         MP4TagsSetDescription( mdata, tags[i] );
+                        break;
+                    case OPT_AUTHOR:
+                        MP4TagsSetAuthor( mdata, tags[i] );
+                        break;
+                    case OPT_CCOPYRIGHT:
+                        MP4TagsSetCCopyright( mdata, tags[i] );
+                        break;
+                    case OPT_DESCRIPTION2:
+                        MP4TagsSetDescription2( mdata, tags[i] );
+                        break;
+                    case OPT_TITLE:
+                        MP4TagsSetTitle( mdata, tags[i] );
+                        break;
+                    case OPT_CLIPFILENAME:
+                        MP4TagsSetClipfilename( mdata, tags[i] );
+                        break;
+                    case OPT_REQUIRED:
+                        MP4TagsSetRequired( mdata, tags[i] );
+                        break;
+                    case OPT_KEYWORD:
+                        MP4TagsSetKeyword( mdata, tags[i] );
                         break;
                     case OPT_TVEPISODE:
                     {

@@ -123,6 +123,14 @@ typedef struct MP4Tags_s
     const char* description;
     const char* longDescription;
     const char* lyrics;
+    
+    const char*  author;
+    const char*  description2;
+    const char*  title;
+    const char*  clipfilename;
+    const char*  required;
+    const char*  keyword;
+    const char*  ccopyright;
 
     const char* sortName;
     const char* sortArtist;
@@ -248,6 +256,14 @@ MP4V2_EXPORT bool MP4TagsSetTVEpisode       ( const MP4Tags*, const uint32_t* );
 MP4V2_EXPORT bool MP4TagsSetDescription     ( const MP4Tags*, const char* );
 MP4V2_EXPORT bool MP4TagsSetLongDescription ( const MP4Tags*, const char* );
 MP4V2_EXPORT bool MP4TagsSetLyrics          ( const MP4Tags*, const char* );
+
+MP4V2_EXPORT bool MP4TagsSetAuthor          ( const MP4Tags*, const char* );
+MP4V2_EXPORT bool MP4TagsSetDescription2    ( const MP4Tags*, const char* );
+MP4V2_EXPORT bool MP4TagsSetTitle           ( const MP4Tags*, const char* );
+MP4V2_EXPORT bool MP4TagsSetClipfilename    ( const MP4Tags*, const char* );
+MP4V2_EXPORT bool MP4TagsSetRequired        ( const MP4Tags*, const char* );
+MP4V2_EXPORT bool MP4TagsSetKeyword         ( const MP4Tags*, const char* );
+MP4V2_EXPORT bool MP4TagsSetCCopyright      ( const MP4Tags*, const char* );
 
 MP4V2_EXPORT bool MP4TagsSetSortName        ( const MP4Tags*, const char* );
 MP4V2_EXPORT bool MP4TagsSetSortArtist      ( const MP4Tags*, const char* );

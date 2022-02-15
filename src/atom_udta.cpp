@@ -29,15 +29,29 @@ namespace impl {
 MP4UdtaAtom::MP4UdtaAtom(MP4File &file)
         : MP4Atom(file, "udta")
 {
+    
+    ExpectChildAtom("auth", Optional, OnlyOne);
     ExpectChildAtom("chpl", Optional, OnlyOne);
+    ExpectChildAtom("clfn", Optional, OnlyOne);
     ExpectChildAtom("cprt", Optional, Many);
+    ExpectChildAtom("dscp", Optional, OnlyOne);
     ExpectChildAtom("hnti", Optional, OnlyOne);
+    ExpectChildAtom("kywd", Optional, OnlyOne);
     ExpectChildAtom("meta", Optional, OnlyOne);
+    ExpectChildAtom("name", Optional, OnlyOne);
+    ExpectChildAtom("titl", Optional, OnlyOne);
+    ExpectChildAtom("tvnn", Optional, OnlyOne);
+    ExpectChildAtom("tvsh", Optional, OnlyOne);
+    
     ExpectChildAtom("\251cpy", Optional, OnlyOne);
     ExpectChildAtom("\251des", Optional, OnlyOne);
+    ExpectChildAtom("\251enc", Optional, OnlyOne);
+    ExpectChildAtom("\251gen", Optional, OnlyOne);
     ExpectChildAtom("\251nam", Optional, OnlyOne);
     ExpectChildAtom("\251cmt", Optional, OnlyOne);
     ExpectChildAtom("\251prd", Optional, OnlyOne);
+    ExpectChildAtom("\251rec", Optional, OnlyOne);
+    ExpectChildAtom("\251req", Optional, OnlyOne);
 }
 
 void MP4UdtaAtom::Read()
@@ -48,6 +62,12 @@ void MP4UdtaAtom::Read()
     }
 
     MP4Atom::Read();
+}
+    
+void MP4UdtaAtom::Write()
+{
+
+    MP4Atom::Write();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

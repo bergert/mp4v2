@@ -99,6 +99,7 @@ $RECYCLE.BIN/
 
 # Mac crap
 build/
+build_shared/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -116,5 +117,7 @@ DerivedData
 *.xcuserstate
 .DS_Store
 xcuserdata
+.project
 
-
+/bin/
+mp4v2.xcodeproj

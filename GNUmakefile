@@ -1367,18 +1367,18 @@ mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
-	-rm -rf .libs _libs
-	-rm -rf libplatform/io/.libs libplatform/io/_libs
-	-rm -rf libplatform/number/.libs libplatform/number/_libs
-	-rm -rf libplatform/process/.libs libplatform/process/_libs
-	-rm -rf libplatform/prog/.libs libplatform/prog/_libs
-	-rm -rf libplatform/sys/.libs libplatform/sys/_libs
-	-rm -rf libplatform/time/.libs libplatform/time/_libs
-	-rm -rf libutil/.libs libutil/_libs
-	-rm -rf src/.libs src/_libs
-	-rm -rf src/bmff/.libs src/bmff/_libs
-	-rm -rf src/itmf/.libs src/itmf/_libs
-	-rm -rf src/qtff/.libs src/qtff/_libs
+	-rm -rf _libs _libs
+	-rm -rf libplatform/io/_libs libplatform/io/_libs
+	-rm -rf libplatform/number/_libs libplatform/number/_libs
+	-rm -rf libplatform/process/_libs libplatform/process/_libs
+	-rm -rf libplatform/prog/_libs libplatform/prog/_libs
+	-rm -rf libplatform/sys/_libs libplatform/sys/_libs
+	-rm -rf libplatform/time/_libs libplatform/time/_libs
+	-rm -rf libutil/_libs libutil/_libs
+	-rm -rf src/_libs src/_libs
+	-rm -rf src/bmff/_libs src/bmff/_libs
+	-rm -rf src/itmf/_libs src/itmf/_libs
+	-rm -rf src/qtff/_libs src/qtff/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt

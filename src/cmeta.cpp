@@ -291,6 +291,78 @@ MP4TagsSetArtist( const MP4Tags* m, const char* value )
 }
 
 bool
+MP4TagsSetAuthor( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+
+    try {
+        cpp.c_setString( value, cpp.author, c.author );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+
+    return false;
+}
+
+bool
+MP4TagsSetRequired( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+
+    try {
+        cpp.c_setString( value, cpp.required, c.required );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+
+    return false;
+}
+
+bool
+MP4TagsSetKeyword( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+    
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+    
+    try {
+        cpp.c_setString( value, cpp.keyword, c.keyword );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+    
+    return false;
+}
+    
+bool
 MP4TagsSetAlbumArtist( const MP4Tags* m, const char* value )
 {
     if( !m || !m->__handle )
@@ -867,6 +939,78 @@ MP4TagsSetDescription( const MP4Tags* m, const char* value )
 }
 
 bool
+MP4TagsSetDescription2( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+    
+    try {
+        cpp.c_setString( value, cpp.description2, c.description2 );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+
+    return false;
+}
+
+bool
+MP4TagsSetTitle( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+    
+    try {
+        cpp.c_setString( value, cpp.title, c.title );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+
+    return false;
+}
+
+bool
+MP4TagsSetClipfilename( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+    
+    try {
+        cpp.c_setString( value, cpp.clipfilename, c.clipfilename );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+
+    return false;
+}
+
+bool
 MP4TagsSetLongDescription( const MP4Tags* m, const char* value )
 {
     if( !m || !m->__handle )
@@ -925,6 +1069,30 @@ MP4TagsSetCopyright( const MP4Tags* m, const char* value )
     
     try {
         cpp.c_setString( value, cpp.copyright, c.copyright );
+        return true;
+    }
+    catch( Exception* x ) {
+        mp4v2::impl::log.errorf(*x);
+        delete x;
+    }
+    catch( ... ) {
+        mp4v2::impl::log.errorf("%s: failed",__FUNCTION__);
+    }
+
+    return false;
+}
+
+bool
+MP4TagsSetCCopyright( const MP4Tags* m, const char* value )
+{
+    if( !m || !m->__handle )
+        return false;
+
+    itmf::Tags& cpp = *static_cast<itmf::Tags*>(m->__handle);
+    MP4Tags& c = *const_cast<MP4Tags*>(m);
+    
+    try {
+        cpp.c_setString( value, cpp.ccopyright, c.ccopyright );
         return true;
     }
     catch( Exception* x ) {
@@ -1044,7 +1212,7 @@ MP4TagsSetKeywords( const MP4Tags* m, const char* value )
     MP4Tags& c = *const_cast<MP4Tags*>(m);
     
     try {
-        cpp.c_setString( value, cpp.keywords, c.keywords );
+        cpp.c_setString( value, cpp.keyword, c.keyword );
         return true;
     }
     catch( Exception* x ) {

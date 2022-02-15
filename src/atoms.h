@@ -644,6 +644,7 @@ class MP4UdtaAtom : public MP4Atom {
 public:
     MP4UdtaAtom(MP4File &file);
     void Read();
+    void Write();
 private:
     MP4UdtaAtom();
     MP4UdtaAtom( const MP4UdtaAtom &src );
